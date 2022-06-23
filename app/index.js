@@ -31,7 +31,7 @@ let PhoneBook=[
 ]
 //app.use(cors());
 app.use(express.json())
-app.use(morgan('tiny'));
+//app.use(morgan('tiny'));
 app.get('/api/persons',(_,res)=>{
     res.send(JSON.stringify(PhoneBook));
 
