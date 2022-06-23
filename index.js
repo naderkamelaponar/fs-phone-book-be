@@ -29,7 +29,7 @@ let PhoneBook=[
         "number": "39-23-6423122"
       }
 ]
-app.use(cors());
+//app.use(cors());
 app.use(express.json())
 app.use(morgan('tiny'));
 app.get('/api/persons',(_,res)=>{
