@@ -77,5 +77,5 @@ app.get('/info',(_,res)=>{
     res.send(msg );
 })
 app.listen(PORT,()=>{
-console.log(`b-e is live @ http://172.0.0.1:${Port}`);
+console.log(`b-e is live @ http://172.0.0.1:${PORT}`);
 })
