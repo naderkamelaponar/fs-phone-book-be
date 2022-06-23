@@ -1,7 +1,9 @@
 // بسم الله الرحمن الرحيم
 const express =require("express");
 const morgan = require("morgan");
+const cors = require('cors');
 const app= express();
+const PORT = process.env.PORT || 3001
 const getId =()=>{
     return Math.floor(Math.random()*1000000);
 }
@@ -27,9 +29,9 @@ let PhoneBook=[
         "number": "39-23-6423122"
       }
 ]
-const Port=3001;
+app.use(cors());
 app.use(express.json())
-app.use(morgan(''));
+app.use(morgan('tiny'));
 app.get('/api/persons',(_,res)=>{
     res.send(JSON.stringify(PhoneBook));
 
@@ -74,6 +76,6 @@ app.get('/info',(_,res)=>{
     msg +=`<p>${new Date()}</p>`;
     res.send(msg );
 })
-app.listen(Port,()=>{
+app.listen(PORT,()=>{
 console.log(`b-e is live @ http://172.0.0.1:${Port}`);
 })
