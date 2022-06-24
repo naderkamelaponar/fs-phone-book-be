@@ -7,8 +7,8 @@ mongoose.connect(dbUri).then((res)=>{
     console.log('connected to db')
 })
 const phoneBookSchema= new mongoose.Schema({
-    personName:String,
-    personNumber:String,
+    name:String,
+    number:String,
 })
 phoneBookSchema.set('toJSON',{
     transform:(document,returnedObject)=>{

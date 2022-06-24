@@ -33,8 +33,8 @@ app.post('/api/persons',(req,res)=>{
     }
     
     const person= new PhoneBook({
-        personName:newPerson.name,
-        personNumber:newPerson.number,
+        name:newPerson.name,
+        number:newPerson.number,
     })
     person.save().then((dbRes)=>{
         res.status(201).json(dbRes);
