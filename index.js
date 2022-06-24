@@ -30,6 +30,7 @@ let PhoneBook=[
       }
 ]
 //app.use(cors());
+console.log(process.env.DB_LOGIN);
 app.use(express.json())
 app.use(express.static('build'))
 app.use(morgan('tiny'));
@@ -78,5 +79,5 @@ app.get('/info',(_,res)=>{
     res.send(msg );
 })
 app.listen(PORT,()=>{
-console.log(`b-e is live @ http://172.0.0.1:${PORT}`);
+console.log(`b-e is live @ http:localhost:${PORT}`);
 })
