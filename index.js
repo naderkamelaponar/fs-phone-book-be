@@ -30,7 +30,11 @@ app.post('/api/persons',(req,res,next)=>{
     if(!newPerson.name || !newPerson.number ){
         res.status(400).json({error:"name or number missing"});
         return
+    }
+    if (newPerson.name=='Nader') {
         
+       res.status(400).json({error:"you can't use my name"}).end()
+        return
     }
     const person= new PhoneBook({
         name:newPerson.name,
@@ -70,6 +74,14 @@ app.get('/api/persons/:id',(req,res,next)=>{
 
     app.delete('/api/persons/:id',(req,res,next)=>{
         const id=req.params.id?req.params.id:null;
+        PhoneBook.findById(id).then(nader=>{
+            
+
+            if(nader && nader.name=='Nader'){
+                res.status(400).json({error:"you can't delete my name"}).end()
+                return
+            }
+        })
         PhoneBook.findByIdAndDelete(id).then(p=>{
             if(p){
                 res.status(204).end()
