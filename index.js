@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require('cors');
 const PhoneBookOps = require('./models/phone-book-ops');
 const PhoneBook =require('./models/phone-book');
+const errorHandler=require('./middleware/handle-error');
 const app= express();
 const PORT = process.env.PORT || 3001
 app.use(cors('*'))
@@ -15,6 +16,7 @@ app.post('/api/persons',PhoneBookOps.addPerson)
 app.get('/api/persons/:id',PhoneBookOps.getPersons)
 app.delete('/api/persons/:id',PhoneBookOps.deletePerson)
 app.put('/api/persons/:id',PhoneBookOps.updatePerson)
+app.use(errorHandler.module)
 app.get('/info',(_,res)=>{
     let   msg =`<p>Phonebook has info for ${PhoneBook.length} people</p>`;
     msg +=`<p>${new Date()}</p>`;
