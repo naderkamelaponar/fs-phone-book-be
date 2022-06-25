@@ -1,7 +1,6 @@
 // بسم الله الرحمن الرحيم
-const express =require("express");
+
 const PhoneBook= require('./phone-book')
-const errorHandler=require('../middleware/handle-error');
 const getPersons =(req,res,next)=>{
     const search=req.params.id?PhoneBook.findById(req.params.id):PhoneBook.find();
     search.then(persons=>{
@@ -79,6 +78,6 @@ const updatePerson = (req,res,next)=>{
             .then(p=>{
                 if(p) res.status(200).json(p)
                 else res.status(404).end()
-            }).catch((err)=>{next(err)})
+            })
 }
 module.exports={getPersons,addPerson,deletePerson, updatePerson};
