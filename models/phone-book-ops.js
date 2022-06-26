@@ -19,14 +19,15 @@ const getPersons =(req,res,next)=>{
 const addPerson =(req,res,next)=>{
     const newPerson=req.body;
     if(!newPerson.name || !newPerson.number ){
-        res.status(400).json({error:"name or number missing"});
+        res.status(400).json({error:"xs or number missing"});
         return
     }
+    
     PhoneBook.findOne({name:'Nader'})
     .then((nader)=>{
         
  if (nader && newPerson.name=='Nader'){
-    res.status(400).json({"No":"you can't use my name"})
+   
     return
  } else{
     const person= new PhoneBook({
@@ -74,10 +75,10 @@ const updatePerson = (req,res,next)=>{
     const id=req.params.id?req.params.id:null;
             const {name,number}=req.body;
             const person={name,number};
-            PhoneBook.findByIdAndUpdate(id,person,{new:true})
+            PhoneBook.findByIdAndUpdate(id,person,{ new: true, runValidators: true, context: 'query' })
             .then(p=>{
                 if(p) res.status(200).json(p)
                 else res.status(404).end()
-            })
+            }).catch(err=>{next(err)})
 }
 module.exports={getPersons,addPerson,deletePerson, updatePerson};
