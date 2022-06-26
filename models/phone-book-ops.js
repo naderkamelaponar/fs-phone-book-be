@@ -2,83 +2,83 @@
 
 const PhoneBook= require('./phone-book')
 const getPersons =(req,res,next)=>{
-    const search=req.params.id?PhoneBook.findById(req.params.id):PhoneBook.find();
-    search.then(persons=>{
-        if (persons) {
-        res.status(200).json(persons)
-        return
-        }else{
-        res.status(404).end()
-        return 
-        }
-       }).catch((err)=>{
-        next(err)
-    })
+  const search=req.params.id?PhoneBook.findById(req.params.id):PhoneBook.find()
+  search.then(persons=>{
+    if (persons) {
+      res.status(200).json(persons)
+      return
+    }else{
+      res.status(404).end()
+      return
+    }
+  }).catch((err)=>{
+    next(err)
+  })
 }
 
 const addPerson =(req,res,next)=>{
-    const newPerson=req.body;
-    if(!newPerson.name || !newPerson.number ){
-        res.status(400).json({error:"xs or number missing"});
-        return
-    }
-    
-    PhoneBook.findOne({name:'Nader'})
-    .then((nader)=>{
-        
- if (nader && newPerson.name=='Nader'){
-   
+  const newPerson=req.body
+  if(!newPerson.name || !newPerson.number ){
+    res.status(400).json({error:'xs or number missing'})
     return
- } else{
-    const person= new PhoneBook({
-        name:newPerson.name,
-        number:newPerson.number,
-    })
-    person.save().then((dbPerson)=>{
-       if(dbPerson){
-        res.status(201).json(dbPerson).end()
+  }
+
+  PhoneBook.findOne({name:'Nader'})
+    .then((nader)=>{
+
+      if (nader && newPerson.name=='Nader'){
+
         return
-       }else{
-        res.status(400).end()
-        return
-        
-       }
-    }).catch((err)=>{
-        next(err)
+      } else{
+        const person= new PhoneBook({
+          name:newPerson.name,
+          number:newPerson.number,
+        })
+        person.save().then((dbPerson)=>{
+          if(dbPerson){
+            res.status(201).json(dbPerson).end()
+            return
+          }else{
+            res.status(400).end()
+            return
+
+          }
+        }).catch((err)=>{
+          next(err)
+        })
+      }
     })
- }
-})
 
 }
 
 const deletePerson = (req,res,next)=>{
-    const id=req.params.id?req.params.id:null;
-    PhoneBook.findById(id).then(nader=>{
-    
-        if(nader && nader.name=='Nader'){
-           res.status(400).json({error:"you can't delete my name"}).end()
-            return
+  const id=req.params.id?req.params.id:null
+  PhoneBook.findById(id).then(nader=>{
+
+    if(nader && nader.name=='Nader'){
+      res.status(400).json({error:'you can\'t delete my name'}).end()
+      return
+    }else{
+      PhoneBook.findByIdAndDelete(id).then(p=>{
+        if(p){
+          res.status(204).end()
         }else{
-            PhoneBook.findByIdAndDelete(id).then(p=>{
-                if(p){
-                    res.status(204).end()
-                }else{
-                    res.status(404).end()
-                }
-            })
+          res.status(404).end()
         }
-    }).catch((err)=>{next(err)})
-  
-    
+      })
+    }
+  }).catch((err)=>{next(err)})
+
+
 }
 const updatePerson = (req,res,next)=>{
-    const id=req.params.id?req.params.id:null;
-            const {name,number}=req.body;
-            const person={name,number};
-            PhoneBook.findByIdAndUpdate(id,person,{ new: true, runValidators: true, context: 'query' })
-            .then(p=>{
-                if(p) res.status(200).json(p)
-                else res.status(404).end()
-            }).catch(err=>{next(err)})
+  const id=req.params.id?req.params.id:null
+  const {name,number}=req.body
+  const person={name,number}
+  PhoneBook.findByIdAndUpdate(id,person,{ new: true, runValidators: true, context: 'query' })
+    .then(p=>{
+      if(p) res.status(200).json(p)
+      else res.status(404).end()
+    }).catch(err=>{next(err)})
 }
-module.exports={getPersons,addPerson,deletePerson, updatePerson};
+module.exports={getPersons,addPerson,deletePerson, updatePerson}
